@@ -47,13 +47,13 @@ backButton.addEventListener('click', () => {
     currentSourceIndex = (currentSourceIndex - 1 + sources.length) % sources.length;
     playAudio();
 });
-
-function shuffleSources() {
-    // Shuffle the order of the <source> elements
-    for (let i = sources.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = sources[i].src;
-        sources[i].src = sources[j].src;
-        sources[j].src = temp;
-    }
-}
+shuffleButton.addEventListener('click', () => {
+    // Trigger shuffle request to the Python server
+    fetch('/shuffle')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Log the response from the server
+            playAudio(); // Assuming you want to play audio after shuffling
+        })
+        .catch(error => console.error(error));
+});
